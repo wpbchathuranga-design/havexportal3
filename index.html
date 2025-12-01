@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing Store - Purchasing Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #6b8cbc;
+            --accent: #ff7e5f;
+            --light: #f8f9fa;
+            --dark: #1a1a1a;
+            --darker: #000000;
+            --success: #28a745;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Public Sans', sans-serif;
+        }
+        
+        body {
+            background-color: #2d3748;
+            color: white;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+            color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            border: 1px solid #4a5568;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .form-section {
+            background-color: #2d3748;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            border: 1px solid #4a5568;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: #4a5568;
+            border: 1px solid #718096;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: border 0.3s, box-shadow 0.3s;
+            color: white;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.2);
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+        
+        .form-col {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 200px;
+        }
+        
+        .required::after {
+            content: " *";
+            color: var(--accent);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background-color: #ff6b4a;
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .message {
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .success {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #68d391;
+            border: 1px solid #68d391;
+        }
+        
+        .error {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: #fc8181;
+            border: 1px solid #fc8181;
+        }
+        
+        .order-id {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 15px 0;
+            padding: 10px;
+            background-color: rgba(255, 126, 95, 0.1);
+            border-radius: var(--border-radius);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #a0aec0;
+            font-size: 0.9rem;
+            padding: 20px;
+            border-top: 1px solid #4a5568;
+        }
+        
+        @media (max-width: 600px) {
+            .form-col {
+                flex: 100%;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+
+        .config-summary {
+            background-color: #4a5568;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .config-summary h3 {
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .config-item {
+            display: flex;
+            justify-content: between;
+            margin-bottom: 5px;
+        }
+
+        .config-label {
+            font-weight: 600;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Purchasing Portal</h1>
+            <p>Configure your product and provide delivery information</p>
+        </header>
+        
+        <div class="form-section">
+            <h2 class="section-title">Product Configuration</h2>
+            
+            <form id="configForm">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="color" class="required">Color</label>
+                            <select id="color" name="color" required>
+                                <option value="">Select Color</option>
+                                <option value="Black">Black</option>
+                                <option value="White">White</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="size" class="required">Size</label>
+                            <select id="size" name="size" required>
+                                <option value="">Select Size</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                                <option value="XXL">XXL</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="quantity" class="required">Quantity</label>
+                    <input type="number" id="quantity" name="quantity" min="1" max="10" value="1" required>
+                </div>
+
+                <div class="config-summary">
+                    <h3>Configuration Summary</h3>
+                    <div class="config-item">
+                        <span class="config-label">Color:</span>
+                        <span id="summary-color">Not selected</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">Size:</span>
+                        <span id="summary-size">Not selected</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">Quantity:</span>
+                        <span id="summary-quantity">1</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <div class="form-section">
+            <h2 class="section-title">Delivery Information</h2>
+            
+            <div id="message" class="message"></div>
+            
+            <form id="deliveryForm">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="firstName" class="required">First Name</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="lastName" class="required">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="required">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone" class="required">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address" class="required">Delivery Address</label>
+                    <textarea id="address" name="address" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="city" class="required">City</label>
+                            <input type="text" id="city" name="city" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="zipCode" class="required">ZIP/Postal Code</label>
+                            <input type="text" id="zipCode" name="zipCode" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="country" class="required">Country</label>
+                    <select id="country" name="country" required>
+                        <option value="">Select Country</option>
+                        <option value="Sri Lanka">Sri Lanka</option>
+                        <option value="India">India</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Additional Notes</label>
+                    <textarea id="notes" name="notes" rows="3" placeholder="Any special instructions for delivery..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn">Complete Purchase</button>
+            </form>
+        </div>
+        
+        <footer>
+            <p>Your information is secure and will only be used for delivery purposes.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Configuration form updates
+        document.getElementById('color').addEventListener('change', updateConfigSummary);
+        document.getElementById('size').addEventListener('change', updateConfigSummary);
+        document.getElementById('quantity').addEventListener('input', updateConfigSummary);
+        
+        function updateConfigSummary() {
+            document.getElementById('summary-color').textContent = document.getElementById('color').value || 'Not selected';
+            document.getElementById('summary-size').textContent = document.getElementById('size').value || 'Not selected';
+            document.getElementById('summary-quantity').textContent = document.getElementById('quantity').value;
+        }
+        
+        // Initialize summary
+        updateConfigSummary();
+        
+        // REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzYSuU7ekGfFRkqJMzCLYqom8OTHzzbtO6OVtYu1bX3iZ_o8H_N-hZsCcrkz7Xh1TM-/exec';
+        
+        document.getElementById('deliveryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate configuration first
+            const color = document.getElementById('color').value;
+            const size = document.getElementById('size').value;
+            const quantity = document.getElementById('quantity').value;
+            
+            if (!color || !size || !quantity) {
+                showMessage('Please complete the product configuration first.', 'error');
+                return;
+            }
+            
+            // Get form data
+            const configData = new FormData(document.getElementById('configForm'));
+            const deliveryData = new FormData(this);
+            const data = {};
+            
+            // Combine both forms data
+            configData.forEach((value, key) => {
+                data[key] = value;
+            });
+            
+            deliveryData.forEach((value, key) => {
+                data[key] = value;
+            });
+            
+            // Add timestamp and generate order ID
+            data.timestamp = new Date().toISOString();
+            data.orderId = generateOrderId();
+            
+            // Show loading state
+            const submitBtn = document.querySelector('#deliveryForm button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Processing Order...';
+            submitBtn.disabled = true;
+            
+            // Send data to Google Sheets via Google Apps Script
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.result === 'success') {
+                    const successMessage = `
+                        Your order is confirmed!<br>
+                        <div class="order-id">Order ID: ${data.orderId}</div>
+                        If we see any mistake in your order we will inform you.<br>
+                        Thank you for your purchase!
+                    `;
+                    showMessage(successMessage, 'success');
+                    document.getElementById('deliveryForm').reset();
+                    document.getElementById('configForm').reset();
+                    updateConfigSummary();
+                } else {
+                    throw new Error(result.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showMessage('Sorry, there was an error processing your order. Please try again.', 'error');
+            })
+            .finally(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+        
+        function generateOrderId() {
+            const timestamp = Date.now().toString().slice(-6);
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `ORD-${timestamp}${random}`;
+        }
+        
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.innerHTML = text;
+            messageEl.className = 'message ' + type;
+            messageEl.style.display = 'block';
+            
+            // Scroll to message
+            messageEl.scrollIntoView({ behavior: 'smooth' });
+            
+            // Hide message after 8 seconds for success (to let user note order ID)
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageEl.style.display = 'none';
+                }, 8000);
+            } else {
+                setTimeout(() => {
+                    messageEl.style.display = 'none';
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>
